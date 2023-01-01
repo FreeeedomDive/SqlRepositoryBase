@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlRepositoryBase.Core", "SqlRepositoryBase.Core\SqlRepositoryBase.Core.csproj", "{5B0A4BCE-0EAB-4E66-96F3-9FDC453D1586}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlRepositoryBase.Configuration", "SqlRepositoryBase.Configuration\SqlRepositoryBase.Configuration.csproj", "{42BF10D8-3ED4-4F0E-8EF9-A3C37058BFB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B0A4BCE-0EAB-4E66-96F3-9FDC453D1586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B0A4BCE-0EAB-4E66-96F3-9FDC453D1586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B0A4BCE-0EAB-4E66-96F3-9FDC453D1586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B0A4BCE-0EAB-4E66-96F3-9FDC453D1586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42BF10D8-3ED4-4F0E-8EF9-A3C37058BFB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42BF10D8-3ED4-4F0E-8EF9-A3C37058BFB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42BF10D8-3ED4-4F0E-8EF9-A3C37058BFB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42BF10D8-3ED4-4F0E-8EF9-A3C37058BFB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
