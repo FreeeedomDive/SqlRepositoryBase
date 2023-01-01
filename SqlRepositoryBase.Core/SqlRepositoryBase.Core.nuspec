@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package>
     <metadata>
-        <id>$id$</id>
+        <id>Xdd.SqlRepositoryBase.Core</id>
         <version>$version$</version>
         <title>$title$</title>
-        <authors>$author$</authors>
+        <authors>hortari</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <license type="expression">MIT</license>
-        <description>$description$</description>
+        <description>Base sql repository wrapper for EF with some CRUD methods</description>
         <copyright>$copyright$</copyright>
     </metadata>
 </package>
