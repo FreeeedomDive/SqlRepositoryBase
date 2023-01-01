@@ -7,6 +7,7 @@
         <PackageId>Xdd.SqlRepositoryBase.Core</PackageId>
         <Title>SqlRepositoryBase.Core</Title>
         <Authors>hortari</Authors>
+        <Version>$(VersionSuffix)</Version>
     </PropertyGroup>
 
     <ItemGroup>
