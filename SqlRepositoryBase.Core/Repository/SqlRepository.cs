@@ -29,6 +29,11 @@ public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> wh
         return result;
     }
 
+    public async Task<TStorageElement[]> ReadAllAsync(Guid id)
+    {
+        return await FindAsync(x => x.Id == id);
+    }
+
     public async Task<TStorageElement[]> ReadAsync(Guid[] ids)
     {
         return await storage.Where(x => ids.Contains(x.Id)).ToArrayAsync();
@@ -75,7 +80,13 @@ public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> wh
         {
             return;
         }
-        storage.RemoveRange(objects);
+
+        await DeleteAsync(objects);
+    }
+
+    public async Task DeleteAsync(params TStorageElement[] storageElements)
+    {
+        storage.RemoveRange(storageElements);
         await databaseContext.SaveChangesAsync();
     }
 
