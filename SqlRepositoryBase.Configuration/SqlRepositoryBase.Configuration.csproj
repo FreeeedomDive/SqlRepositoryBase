@@ -8,6 +8,7 @@
         <Title>SqlRepositoryBase.Configuration</Title>
         <Authors>hortari</Authors>
         <Version>$(VersionSuffix)</Version>
+        <Description>Configuration for dependency injection</Description>
     </PropertyGroup>
 
     <ItemGroup>

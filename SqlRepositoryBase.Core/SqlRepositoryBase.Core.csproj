@@ -8,6 +8,7 @@
         <Title>SqlRepositoryBase.Core</Title>
         <Authors>hortari</Authors>
         <Version>$(VersionSuffix)</Version>
+        <Description>Base sql repository wrapper for EF with some CRUD methods</Description>
     </PropertyGroup>
 
     <ItemGroup>
