@@ -9,7 +9,7 @@ public static class ModelBuilderExtensions
         where T : VersionedSqlStorageElement
     {
         var versionSequenceName = $"{tableName}Version";
-        modelBuilder.HasSequence<int>(versionSequenceName)
+        modelBuilder.HasSequence<long>(versionSequenceName)
             .StartsAt(1)
             .IncrementsBy(1);
         modelBuilder.Entity<T>()
