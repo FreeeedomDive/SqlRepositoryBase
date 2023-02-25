@@ -90,6 +90,6 @@ public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> wh
         await databaseContext.SaveChangesAsync();
     }
 
-    private readonly DbContext databaseContext;
-    private readonly DbSet<TStorageElement> storage;
+    protected readonly DbContext databaseContext;
+    protected readonly DbSet<TStorageElement> storage;
 }
