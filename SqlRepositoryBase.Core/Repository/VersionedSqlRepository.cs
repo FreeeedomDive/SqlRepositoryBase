@@ -22,6 +22,7 @@ public class VersionedSqlRepository<TVersionedStorageElement>
         {
             throw new SqlConcurrentEntityUpdateException(id);
         }
+        @object.Version++;
 
         await databaseContext.SaveChangesAsync();
     }
