@@ -5,8 +5,7 @@ using SqlRepositoryBase.Core.Models;
 namespace SqlRepositoryBase.Core.Repository;
 
 public class VersionedSqlRepository<TVersionedStorageElement>
-    : SqlRepository<TVersionedStorageElement>,
-        IVersionedSqlRepository<TVersionedStorageElement>
+    : SqlRepository<TVersionedStorageElement>, IVersionedSqlRepository<TVersionedStorageElement>
     where TVersionedStorageElement : VersionedSqlStorageElement
 {
     public VersionedSqlRepository(DbContext databaseContext) : base(databaseContext)
@@ -22,6 +21,7 @@ public class VersionedSqlRepository<TVersionedStorageElement>
         {
             throw new SqlConcurrentEntityUpdateException(id);
         }
+
         @object.Version++;
 
         await databaseContext.SaveChangesAsync();
