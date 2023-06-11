@@ -12,6 +12,10 @@ public class VersionedSqlRepository<TVersionedStorageElement>
     {
     }
 
+    /// <summary>
+    ///     Update an entity with concurrent check. You need to update entity version inside of updateAction. 
+    /// </summary>
+    /// <exception cref="SqlConcurrentEntityUpdateException">If provided version is different from the saved version at the beginning of the operation, SqlConcurrentEntityUpdateException will be thrown</exception>
     public async Task ConcurrentUpdateAsync(Guid id, Action<TVersionedStorageElement> updateAction)
     {
         var @object = await storage.FirstAsync(x => x.Id == id);
