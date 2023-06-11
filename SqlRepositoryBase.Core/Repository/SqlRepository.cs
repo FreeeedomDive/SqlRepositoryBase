@@ -54,9 +54,9 @@ public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> wh
         return storage.AsQueryable();
     }
 
-    public async Task ExecuteWithDatabaseContextAsync(Func<DbContext, Task> func)
+    public async Task ModifyDbSetAsync(Func<DbSet<TStorageElement>, Task> func)
     {
-        await func(databaseContext);
+        await func(storage);
         await databaseContext.SaveChangesAsync();
     }
 

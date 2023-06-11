@@ -45,9 +45,9 @@ public interface ISqlRepository<TStorageElement> where TStorageElement : SqlStor
     IQueryable<TStorageElement> BuildCustomQuery();
 
     /// <summary>
-    ///     Execute operations with DbContext, all changes will be saved automatically
+    ///     Execute operations directly with DbSet, all changes will be saved automatically
     /// </summary>
-    Task ExecuteWithDatabaseContextAsync(Func<DbContext, Task> func);
+    Task ModifyDbSetAsync(Func<DbSet<TStorageElement>, Task> func);
 
     /// <summary>
     ///     Create a new entity
