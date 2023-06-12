@@ -35,7 +35,7 @@ public static class AspNetServiceCollectionExtensions
         foreach (var sqlStorageElementType in sqlStorageElementTypes)
         {
             var genericSqlRepositoryInterfaceType = typeof(IVersionedSqlRepository<>).MakeGenericType(sqlStorageElementType);
-            var genericSqlRepositoryImplementationType = typeof(VersionedSqlStorageElement).MakeGenericType(sqlStorageElementType);
+            var genericSqlRepositoryImplementationType = typeof(VersionedSqlRepository<>).MakeGenericType(sqlStorageElementType);
             services.AddTransient(genericSqlRepositoryInterfaceType, genericSqlRepositoryImplementationType);
         }
 
