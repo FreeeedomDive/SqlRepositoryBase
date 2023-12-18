@@ -2,20 +2,20 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SqlRepositoryBase.Core.Exceptions;
 using SqlRepositoryBase.Core.Models;
+using SqlRepositoryBase.Core.Options;
 
 namespace SqlRepositoryBase.Core.Repository;
 
 public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> where TStorageElement : SqlStorageElement
 {
-    public SqlRepository(DbContext databaseContext)
+    public SqlRepository(IConnectionStringProvider connectionStringProvider)
     {
-        this.databaseContext = databaseContext;
-        storage = databaseContext.Set<TStorageElement>();
+        this.connectionStringProvider = connectionStringProvider;
     }
 
     public async Task<TStorageElement[]> ReadAllAsync()
     {
-        return await storage.ToArrayAsync();
+        return await GetContextWithSet().Storage.ToArrayAsync();
     }
 
     public async Task<TStorageElement> ReadAsync(Guid id)
@@ -36,47 +36,51 @@ public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> wh
 
     public async Task<TStorageElement[]> ReadAsync(Guid[] ids)
     {
-        return await storage.Where(x => ids.Contains(x.Id)).ToArrayAsync();
+        return await GetContextWithSet().Storage.Where(x => ids.Contains(x.Id)).ToArrayAsync();
     }
 
     public async Task<TStorageElement?> TryReadAsync(Guid id)
     {
-        return await storage.FirstOrDefaultAsync(x => x.Id == id);
+        return await GetContextWithSet().Storage.FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<TStorageElement[]> FindAsync(Expression<Func<TStorageElement, bool>> predicate)
     {
-        return await storage.Where(predicate).ToArrayAsync();
+        return await GetContextWithSet().Storage.Where(predicate).ToArrayAsync();
     }
 
     public IQueryable<TStorageElement> BuildCustomQuery()
     {
-        return storage.AsQueryable();
+        return GetContextWithSet().Storage.AsQueryable();
     }
 
     public async Task ModifyDbSetAsync(Func<DbSet<TStorageElement>, Task> func)
     {
+        var (context, storage) = GetContextWithSet();
         await func(storage);
-        await databaseContext.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task CreateAsync(TStorageElement storageElement)
     {
+        var (context, storage) = GetContextWithSet();
         await storage.AddAsync(storageElement);
-        await databaseContext.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task CreateAsync(IEnumerable<TStorageElement> storageElements)
     {
+        var (context, storage) = GetContextWithSet();
         await storage.AddRangeAsync(storageElements);
-        await databaseContext.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Guid id, Action<TStorageElement> updateAction)
     {
+        var (context, storage) = GetContextWithSet();
         var @object = await storage.FirstAsync(x => x.Id == id);
         updateAction(@object);
-        await databaseContext.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(params Guid[] ids)
@@ -92,10 +96,17 @@ public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> wh
 
     public async Task DeleteAsync(params TStorageElement[] storageElements)
     {
+        var (context, storage) = GetContextWithSet();
         storage.RemoveRange(storageElements);
-        await databaseContext.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
-    protected readonly DbContext databaseContext;
-    protected readonly DbSet<TStorageElement> storage;
+    protected (DbContext Context, DbSet<TStorageElement> Storage) GetContextWithSet()
+    {
+        var context = new PostgreSqlDatabaseContext(connectionStringProvider);
+        var set = context.Set<TStorageElement>();
+        return (context, set);
+    }
+
+    private readonly IConnectionStringProvider connectionStringProvider;
 }
