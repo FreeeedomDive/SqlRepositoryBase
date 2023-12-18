@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using SqlRepositoryBase.Core.ContextBuilders;
 using SqlRepositoryBase.Core.Models;
 using SqlRepositoryBase.Core.Options;
 using SqlRepositoryBase.Core.Repository;
@@ -17,6 +19,19 @@ public static class AspNetServiceCollectionExtensions
             {
                 var options = serviceProvider.GetRequiredService<IOptions<AppSettingsDatabaseOptions>>();
                 return new AppSettingsConnectionStringProvider(options);
+            }
+        );
+
+        return services;
+    }
+
+    public static IServiceCollection ConfigureDbContextFactory(IServiceCollection services, Func<string, DbContext> buildFunc)
+    {
+        services.AddTransient<IDbContextFactory>(
+            serviceProvider =>
+            {
+                var connectionStringProvider = serviceProvider.GetRequiredService<IConnectionStringProvider>();
+                return new DbContextFactory(connectionStringProvider, buildFunc);
             }
         );
 

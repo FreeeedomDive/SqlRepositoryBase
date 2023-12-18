@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using SqlRepositoryBase.Core.ContextBuilders;
 using SqlRepositoryBase.Core.Exceptions;
 using SqlRepositoryBase.Core.Models;
-using SqlRepositoryBase.Core.Options;
 
 namespace SqlRepositoryBase.Core.Repository;
 
@@ -9,7 +9,7 @@ public class VersionedSqlRepository<TVersionedStorageElement>
     : SqlRepository<TVersionedStorageElement>, IVersionedSqlRepository<TVersionedStorageElement>
     where TVersionedStorageElement : VersionedSqlStorageElement
 {
-    public VersionedSqlRepository(IConnectionStringProvider connectionStringProvider) : base(connectionStringProvider)
+    public VersionedSqlRepository(IDbContextFactory dbContextFactory) : base(dbContextFactory)
     {
     }
 

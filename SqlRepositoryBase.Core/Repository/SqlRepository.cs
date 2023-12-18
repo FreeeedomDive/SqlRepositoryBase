@@ -1,16 +1,16 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using SqlRepositoryBase.Core.ContextBuilders;
 using SqlRepositoryBase.Core.Exceptions;
 using SqlRepositoryBase.Core.Models;
-using SqlRepositoryBase.Core.Options;
 
 namespace SqlRepositoryBase.Core.Repository;
 
 public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> where TStorageElement : SqlStorageElement
 {
-    public SqlRepository(IConnectionStringProvider connectionStringProvider)
+    public SqlRepository(IDbContextFactory dbContextFactory)
     {
-        this.connectionStringProvider = connectionStringProvider;
+        this.dbContextFactory = dbContextFactory;
     }
 
     public async Task<TStorageElement[]> ReadAllAsync()
@@ -103,10 +103,10 @@ public class SqlRepository<TStorageElement> : ISqlRepository<TStorageElement> wh
 
     protected (DbContext Context, DbSet<TStorageElement> Storage) GetContextWithSet()
     {
-        var context = new PostgreSqlDatabaseContext(connectionStringProvider);
+        var context = dbContextFactory.Build();
         var set = context.Set<TStorageElement>();
         return (context, set);
     }
 
-    private readonly IConnectionStringProvider connectionStringProvider;
+    private readonly IDbContextFactory dbContextFactory;
 }
