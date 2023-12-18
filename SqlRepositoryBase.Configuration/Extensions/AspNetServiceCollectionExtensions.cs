@@ -25,7 +25,7 @@ public static class AspNetServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection ConfigureDbContextFactory(IServiceCollection services, Func<string, DbContext> buildFunc)
+    public static IServiceCollection ConfigureDbContextFactory(this IServiceCollection services, Func<string, DbContext> buildFunc)
     {
         services.AddTransient<IDbContextFactory>(
             serviceProvider =>
