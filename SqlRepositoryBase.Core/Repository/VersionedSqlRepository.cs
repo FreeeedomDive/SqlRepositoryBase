@@ -1,21 +1,20 @@
 using Microsoft.EntityFrameworkCore;
-using SqlRepositoryBase.Core.ContextBuilders;
 using SqlRepositoryBase.Core.Exceptions;
 using SqlRepositoryBase.Core.Models;
 
 namespace SqlRepositoryBase.Core.Repository;
 
-public class VersionedSqlRepository<TVersionedStorageElement>
-    : SqlRepository<TVersionedStorageElement>, IVersionedSqlRepository<TVersionedStorageElement>
-    where TVersionedStorageElement : VersionedSqlStorageElement
+public class VersionedSqlRepository<TVersionedStorageElement, TDbContext>
+    : SqlRepository<TVersionedStorageElement, TDbContext>, IVersionedSqlRepository<TVersionedStorageElement>
+    where TVersionedStorageElement : VersionedSqlStorageElement where TDbContext : DbContext
 {
-    public VersionedSqlRepository(IDbContextFactory dbContextFactory) : base(dbContextFactory)
+    public VersionedSqlRepository(IDbContextFactory<TDbContext> dbContextFactory) : base(dbContextFactory)
     {
     }
 
     public async Task ConcurrentUpdateAsync(Guid id, Action<TVersionedStorageElement> updateAction)
     {
-        var (context, storage) = GetContextWithSet();
+        var (context, storage) = await GetContextWithSet();
         var @object = await storage.FirstAsync(x => x.Id == id);
         var version = @object.Version;
         updateAction(@object);

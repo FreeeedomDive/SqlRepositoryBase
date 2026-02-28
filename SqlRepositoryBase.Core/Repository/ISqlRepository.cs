@@ -42,7 +42,7 @@ public interface ISqlRepository<TStorageElement> where TStorageElement : SqlStor
     /// <summary>
     ///     Build custom query with IQueryable
     /// </summary>
-    IQueryable<TStorageElement> BuildCustomQuery();
+    Task<IQueryable<TStorageElement>> BuildCustomQueryAsync();
 
     /// <summary>
     ///     Execute operations directly with DbSet, all changes will be saved automatically
