@@ -1,0 +1,49 @@
+name: Build and publish Nuget packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore ./src
+
+      - name: Build solution
+        run: dotnet build ./src --configuration Release --no-restore
+
+      - name: Pack all NuGet projects
+        run: |
+          VERSION="1.1.${{ github.run_number }}"
+          for proj in $(find ./src -name "*.csproj"); do
+            if grep -q "<IsPackable>true</IsPackable>" "$proj"; then
+              dotnet pack "$proj" \
+                --configuration Release \
+                --no-build \
+                -p:Version=$VERSION \
+                -o ./artifacts
+              echo "Packed $proj as $VERSION"
+            fi
+          done
+
+      - name: Publish packages to NuGet.org
+        run: |
+          for pkg in ./artifacts/*.nupkg; do
+            [ -e "$pkg" ] || continue
+            dotnet nuget push "$pkg" \
+              --api-key ${{ secrets.NUGET_API_KEY }} \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+            echo "Published $pkg"
+          done

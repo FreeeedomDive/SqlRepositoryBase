@@ -2,13 +2,13 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
+        <IsPackable>true</IsPackable>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Xdd.SqlRepositoryBase.Configuration</PackageId>
         <Title>SqlRepositoryBase.Configuration</Title>
         <Authors>hortari</Authors>
-        <Version>$(VersionSuffix)</Version>
-        <Description>Configuration for dependency injection</Description>
+        <Description>Use EF ContextFactory instead of the implemented one</Description>
     </PropertyGroup>
 
     <ItemGroup>

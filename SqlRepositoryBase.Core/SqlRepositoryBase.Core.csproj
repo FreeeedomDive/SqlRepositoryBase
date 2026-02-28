@@ -2,13 +2,13 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
+        <IsPackable>true</IsPackable>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Xdd.SqlRepositoryBase.Core</PackageId>
         <Title>SqlRepositoryBase.Core</Title>
         <Authors>hortari</Authors>
-        <Version>$(VersionSuffix)</Version>
-        <Description>Base sql repository wrapper for EF with some CRUD methods</Description>
+        <Description>Use EF ContextFactory instead of the implemented one</Description>
     </PropertyGroup>
 
     <ItemGroup>
